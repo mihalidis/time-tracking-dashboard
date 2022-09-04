@@ -3,20 +3,44 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  --light-red-work-color: hsl(15, 100%, 70%);
+  --soft-blue-color: hsl(195, 74%, 62%);
+  --light-red-study-color: hsl(348, 100%, 68%);
+  --lime-green-exercise-color: hsl(145, 58%, 55%);
+  --violet-social-color: hsl(264, 64%, 52%);
+  --soft-orange-self-care-color: hsl(43, 84%, 65%);
+
+  --blue: hsl(246, 80%, 60%);
+  --very-dark-blue: hsl(226, 43%, 10%);
+  --dark-blue : hsl(235, 46%, 20%);
+  --desaturated-blue: hsl(235, 45%, 61%);
+  --pale-blue: hsl(236, 100%, 87%);
+}
+
+:root {
+  font-family: Rubik, Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: var(--very-dark-blue);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+  font-weight: normal;
 }
 
 body {
@@ -29,9 +53,9 @@ body {
 
 #app {
   max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
 }
 
 @media (prefers-color-scheme: light) {
