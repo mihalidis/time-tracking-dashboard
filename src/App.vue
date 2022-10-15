@@ -1,5 +1,47 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 import TrackerCard from './components/TrackerCard.vue'
+import { useTrackerStore } from './stores/trackerStore.js';
+
+const store = useTrackerStore();
+
+const trackerCards = ref([
+  {
+    icon: 'icon-work.svg',
+    title: 'Work',
+    color: 'bg-lightRedWork'
+  },
+  {
+    icon: 'icon-play.svg',
+    title: 'Play',
+    color: 'bg-softBlue'
+  },
+  {
+    icon: 'icon-study.svg',
+    title: 'Study',
+    color: 'bg-lightRedStudy'
+  },
+  {
+    icon: 'icon-exercise.svg',
+    title: 'Exercise',
+    color: 'bg-limeGreenWorkout'
+  },
+  {
+    icon: 'icon-social.svg',
+    title: 'Social',
+    color: 'bg-violetSocial'
+  },
+  {
+    icon: 'icon-self-care.svg',
+    title: 'Self Care',
+    color: 'bg-softOrangeSelfCare'
+  }
+]);
+
+onMounted(() => {
+  store.fetchUserWithLog();
+});
 </script>
 
 <template>
@@ -17,12 +59,11 @@ import TrackerCard from './components/TrackerCard.vue'
       </div>
     </div>
     <div class="grid grid-cols-3 gap-y-[58px] gap-x-7">
-      <TrackerCard />
-      <TrackerCard />
-      <TrackerCard />
-      <TrackerCard />
-      <TrackerCard />
-      <TrackerCard />
+      <TrackerCard v-for="(item, index) in trackerCards"
+                    :key="index"
+                    :img-src="item.icon"
+                    :title="item.title"
+                    :bg-color="item.color" />
     </div>
   </div>
 </template>
