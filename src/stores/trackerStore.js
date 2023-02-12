@@ -1,16 +1,20 @@
 import { defineStore } from 'pinia';
-import axios from "axios";
+import data from "../dummy_data/data.json";
 
 export const useTrackerStore = defineStore('tracker', {
   state: () => ({
     userLog: []
   }),
+  getters: {
+    getUserLog() {
+      return this.userLog;
+    }
+  },
   actions: {
     async fetchUserWithLog() {
       try {
-        const { data: response } = await axios.get(`http://localhost:3000/api/v1/reports/632ef1022e2b5c239c952290`);
-        console.log(response.data);
-        this.userLog = response.data;
+        // you can reach your api from here with axios, I use dummy data for this
+        this.userLog = data;
       } catch (errors) {
         console.error(errors);
       }

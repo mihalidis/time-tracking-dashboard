@@ -10,3 +10,5 @@ npm install
 ```
 npm run dev
 ```
+
+icons from [Flaticon](https://www.flaticon.com) <3

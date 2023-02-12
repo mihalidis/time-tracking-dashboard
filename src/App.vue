@@ -1,49 +1,3 @@
-<script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
-import TrackerCard from './components/TrackerCard.vue'
-import { useTrackerStore } from './stores/trackerStore.js';
-
-const store = useTrackerStore();
-
-const trackerCards = ref([
-  {
-    icon: 'icon-work.svg',
-    title: 'Work',
-    color: 'bg-lightRedWork'
-  },
-  {
-    icon: 'icon-play.svg',
-    title: 'Play',
-    color: 'bg-softBlue'
-  },
-  {
-    icon: 'icon-study.svg',
-    title: 'Study',
-    color: 'bg-lightRedStudy'
-  },
-  {
-    icon: 'icon-exercise.svg',
-    title: 'Exercise',
-    color: 'bg-limeGreenWorkout'
-  },
-  {
-    icon: 'icon-social.svg',
-    title: 'Social',
-    color: 'bg-violetSocial'
-  },
-  {
-    icon: 'icon-self-care.svg',
-    title: 'Self Care',
-    color: 'bg-softOrangeSelfCare'
-  }
-]);
-
-onMounted(() => {
-  store.fetchUserWithLog();
-});
-</script>
-
 <template>
   <div class="flex w-full">
     <div class="mr-7">
@@ -59,14 +13,68 @@ onMounted(() => {
       </div>
     </div>
     <div class="grid grid-cols-3 gap-y-[58px] gap-x-7">
-      <TrackerCard v-for="(item, index) in trackerCards"
+      <TrackerCard v-for="(item, index) in trackerData"
                     :key="index"
-                    :img-src="item.icon"
-                    :title="item.title"
-                    :bg-color="item.color" />
+                    :card-info="item" />
     </div>
   </div>
 </template>
+
+<script setup>
+import { reactive, onMounted, computed } from 'vue';
+import TrackerCard from './components/TrackerCard.vue'
+import { useTrackerStore } from './stores/trackerStore.js';
+
+const store = useTrackerStore();
+
+const trackerCards = reactive({ data: [
+  {
+    icon: 'icon-work.svg',
+    title: 'work',
+    color: 'bg-lightRedWork'
+  },
+  {
+    icon: 'icon-play.svg',
+    title: 'play',
+    color: 'bg-softBlue'
+  },
+  {
+    icon: 'icon-study.svg',
+    title: 'study',
+    color: 'bg-lightRedStudy'
+  },
+  {
+    icon: 'icon-exercise.svg',
+    title: 'exercise',
+    color: 'bg-limeGreenWorkout'
+  },
+  {
+    icon: 'icon-social.svg',
+    title: 'social',
+    color: 'bg-violetSocial'
+  },
+  {
+    icon: 'icon-self-care.svg',
+    title: 'self_care',
+    color: 'bg-softOrangeSelfCare'
+  }
+] });
+
+const trackerData = computed(() => {
+  return trackerCards.data.map(item => {
+    const indexItem = store.getUserLog.findIndex(log => log.title === item.title);
+
+    return {
+      ...item,
+      ...store.getUserLog[indexItem]
+    }
+  });
+});
+
+onMounted(() => {
+  store.fetchUserWithLog();
+});
+</script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&display=swap');
