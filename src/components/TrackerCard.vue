@@ -2,7 +2,7 @@
   <div class="relative cursor-pointer w-[245px] h-[200px]">
     <div  class="flex flex-row-reverse w-100 rounded-2xl"
           :class="{ [`${cardInfo.color}`]: true }">
-      <img class="h-[60px]" :src="`../assets/images/${cardInfo.icon}`" alt="icon">
+      <img class="h-[60px]" :src="`src/assets/images/${cardInfo.icon}`" :alt="cardInfo.icon">
     </div>
     <div class="flex flex-col justify-around rounded-2xl w-[245px] h-[200px] px-7 pt-1 bg-darkBlue hover:bg-darkLightBlue absolute top-[35px] z-10">
       <span class="flex justify-between items-center">
