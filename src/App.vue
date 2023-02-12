@@ -7,26 +7,30 @@
         <p class="text-3xl break-words">Jeremy Robson</p>
       </div>
       <div class="flex flex-col justify-evenly bg-darkBlue px-8 pt-8 w-full max-w-[245px] h-[200px] rounded-2xl absolute top-[295px]">
-        <span class="text-desaturatedBlue hover:text-paleBlue cursor-pointer">Daily</span>
-        <span class="text-desaturatedBlue hover:text-paleBlue cursor-pointer">Weekly</span>
-        <span class="text-desaturatedBlue hover:text-paleBlue cursor-pointer">Monthly</span>
+        <span v-for="(time, index) in timeSelection.selection"
+              :key="index"
+              class="hover:text-paleBlue cursor-pointer"
+              @click.prevent="changeSelectedTime(time)"
+              :class="time.selected ? 'text-paleBlue' : 'text-desaturatedBlue'" >{{ time.title }}</span>
       </div>
     </div>
     <div class="grid grid-cols-3 gap-y-[58px] gap-x-7">
       <TrackerCard v-for="(item, index) in trackerData"
                     :key="index"
-                    :card-info="item" />
+                    :card-info="item"
+                    :selected-time="selectedTime" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { reactive, onMounted, computed } from 'vue';
+import { reactive, computed, onBeforeMount } from 'vue';
 import TrackerCard from './components/TrackerCard.vue'
 import { useTrackerStore } from './stores/trackerStore.js';
 
 const store = useTrackerStore();
 
+// data
 const trackerCards = reactive({ data: [
   {
     icon: 'icon-work.svg',
@@ -60,6 +64,22 @@ const trackerCards = reactive({ data: [
   }
 ] });
 
+const timeSelection = reactive({ selection: [
+  {
+    title: 'daily',
+    selected: true
+  },
+  {
+    title: 'weekly',
+    selected: false
+  },
+  {
+    title: 'monthly',
+    selected: false
+  }
+]});
+
+// computed
 const trackerData = computed(() => {
   return trackerCards.data.map(item => {
     const indexItem = store.getUserLog.findIndex(log => log.title === item.title);
@@ -71,9 +91,25 @@ const trackerData = computed(() => {
   });
 });
 
-onMounted(() => {
+const selectedTime = computed(() => {
+  return timeSelection.selection.find(time => time.selected);
+});
+
+// lifecycle hooks
+onBeforeMount(() => {
   store.fetchUserWithLog();
 });
+
+// methods
+function changeSelectedTime (time) {
+  timeSelection.selection.forEach(item => {
+    if (item.title === time.title) {
+      item.selected = true;
+    } else {
+      item.selected = false;
+    }
+  });
+}
 </script>
 
 <style scoped>
