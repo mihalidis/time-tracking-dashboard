@@ -1,20 +1,22 @@
 <template>
-  <div class="flex w-full">
-    <div class="mr-7">
-      <div class="bg-blue p-8 w-full max-w-[245px] h-[330px] rounded-2xl z-10">
-        <img class="w-16 mb-10" src="./assets/images/image-jeremy.png" alt="jeremy">
-        <p class="text-sm text-paleBlue">Report for</p>
-        <p class="text-3xl break-words">Jeremy Robson</p>
+  <div class="flex md:flex-row flex-col w-full">
+    <div class="md:mr-7 mr-0">
+      <div class="flex md:flex-col flex-row gap-x-7 bg-blue p-8 w-full md:max-w-[245px] max-w-[100%] md:h-[330px] h-[115px] rounded-2xl z-10">
+        <img class="w-[70px] h-[70px] mb-10" src="./assets/images/image-jeremy.png" alt="jeremy">
+        <span class="name-area">
+          <p class="text-sm text-paleBlue">Report for</p>
+          <p class="text-3xl md:break-words md:whitespace-normal whitespace-nowrap">Jeremy Robson</p>
+        </span>
       </div>
-      <div class="flex flex-col justify-evenly bg-darkBlue px-8 pt-8 w-full max-w-[245px] h-[200px] rounded-2xl absolute top-[295px]">
+      <div class="flex md:flex-col flex-row justify-evenly bg-darkBlue px-8 pt-8 w-full md:max-w-[245px] max-w-full md:h-[200px] h-[80px] rounded-2xl relative md:top-[-28px] top-[-20px]">
         <span v-for="(time, index) in timeSelection.selection"
               :key="index"
-              class="hover:text-paleBlue cursor-pointer"
+              class="hover:text-paleBlue text-xl cursor-pointer"
               @click.prevent="changeSelectedTime(time)"
-              :class="time.selected ? 'text-paleBlue' : 'text-desaturatedBlue'" >{{ time.title }}</span>
+              :class="time.selected ? 'text-paleBlue' : 'text-desaturatedBlue'" >{{ startCase(time.title) }}</span>
       </div>
     </div>
-    <div class="grid grid-cols-3 gap-y-[58px] gap-x-7">
+    <div class="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 lg:gap-y-[6px] gap-y-[58px] gap-x-7">
       <TrackerCard v-for="(item, index) in trackerData"
                     :key="index"
                     :card-info="item"
@@ -27,6 +29,7 @@
 import { reactive, computed, onBeforeMount } from 'vue';
 import TrackerCard from './components/TrackerCard.vue'
 import { useTrackerStore } from './stores/trackerStore.js';
+import { startCase } from 'lodash';
 
 const store = useTrackerStore();
 
